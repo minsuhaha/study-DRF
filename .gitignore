@@ -1,0 +1,9 @@
+pyproject.toml
+poetry.lock
+# Django #
+*.log
+*.pot
+*.pyc
+__pycache__
+db.sqlite3
+media
