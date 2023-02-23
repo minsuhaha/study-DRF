@@ -17,9 +17,9 @@ class RoomListSerializer(serializers.ModelSerializer):
 
 class RoomDetailSerializer(serializers.ModelSerializer):
     # 이런식으로 사용하려면 무조건 foreign key로 연결되어있어야 함.
-    owner = TinyUserSerializer() # DRF Serializer에서 owner(Room모델안에 있는)를 가지고 올때 TinyUserSerializer에서 데이터를 가져옴
-    amenities = AmenitySerializer(many=True) # 여러개있을땐 many=True 꼭!!
-    category = CategorySerializer()
+    owner = TinyUserSerializer(read_only=True) # DRF Serializer에서 owner(Room모델안에 있는)를 가지고 올때 TinyUserSerializer에서 데이터를 가져옴
+    amenities = AmenitySerializer(read_only = True, many=True) # 여러개있을땐 many=True 꼭!!
+    category = CategorySerializer(read_only = True)
 
     class Meta:
         model = Room
