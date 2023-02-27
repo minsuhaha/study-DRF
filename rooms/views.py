@@ -6,7 +6,7 @@ from rest_framework.exceptions import NotFound, NotAuthenticated, ParseError, Pe
 from .models import Amenity, Room
 from categories.models import Category
 from .serializers import AmenitySerializer, RoomListSerializer, RoomDetailSerializer
-
+from reviews.serializers import ReviewSerializer
 
 # 모든 view function은 request를 받는다는것을 꼭 생각하고 있을 것!
 class Amenities(APIView):
@@ -147,16 +147,22 @@ class RoomDetail(APIView):
         room.delete()
         return Response(status=HTTP_204_NO_CONTENT)
 
-    
-# {"name" : "House created with DRF",
-#  "country": "한국",
-#   "city":"서울",
-#   "price":1000,
-#   "rooms":2,
-#   "toilets":2,
-#   "description":"DRF is great!",
-#   "address":"123",
-#   "pet_friendly":true,
-#    "category":3,
-#    "amenities":[1,2],
-#    "kind":"private_room"}
+class RoomReviews(APIView):
+    def get_object(self, pk):
+        try:
+            return Room.objects.get(pk=pk)
+        except Room.DoesNotExist:
+            raise NotFound 
+           
+    def get(self, request, pk):
+        # page
+        page = request.query_params.get("page", 1)
+        page = int(page) # 계산을 위해 정수형으로 형변환.
+        page_size = 1 # 한 페이지당 크기
+        start = (page - 1) * page_size
+        end = start + page_size
+        room = self.get_object(pk)
+        serializer = ReviewSerializer(
+            room.reviews.all()[start:end], 
+            many=True)
+        return Response(serializer.data)

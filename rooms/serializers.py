@@ -28,7 +28,8 @@ class RoomDetailSerializer(serializers.ModelSerializer):
     category = CategorySerializer(read_only = True)
     rating = serializers.SerializerMethodField() # rating 값을 계산할 method를 만들거임.
     is_owner = serializers.SerializerMethodField()
-    reviews = ReviewSerializer(many=True, read_only=True) # related_name으로 필드명 설정해줘야 작동, 역접근자(역참조) -> room.reviews
+    
+    # reviews = ReviewSerializer(many=True, read_only=True) # related_name으로 필드명 설정해줘야 작동, 역접근자(역참조) -> room.reviews
 
     class Meta:
         model = Room
