@@ -3,6 +3,8 @@ from .models import Amenity, Room
 from users.serializers import TinyUserSerializer
 from reviews.serializers import ReviewSerializer
 from categories.serializers import CategorySerializer
+from medias.serializers import PhotoSerializer
+
 
 class AmenitySerializer(serializers.ModelSerializer):
     class Meta:
@@ -13,10 +15,11 @@ class AmenitySerializer(serializers.ModelSerializer):
 class RoomListSerializer(serializers.ModelSerializer):
 
     rating = serializers.SerializerMethodField() # rating 값을 계산할 method를 만들거임.
+    photos = PhotoSerializer(many=True, read_only=True)
 
     class Meta:
         model = Room
-        fields = ('pk', 'name', 'country', 'city', 'price','rating',)
+        fields = ('pk', 'name', 'country', 'city', 'price','rating','photos')
 
     def get_rating(self, room): #SerializerMethodField 를 사용하면 꼭 get_변수이름 이름 함수를 지정해줘야 함.
         return room.rating()
@@ -28,7 +31,7 @@ class RoomDetailSerializer(serializers.ModelSerializer):
     category = CategorySerializer(read_only = True)
     rating = serializers.SerializerMethodField() # rating 값을 계산할 method를 만들거임.
     is_owner = serializers.SerializerMethodField()
-    
+    photos = PhotoSerializer(many=True, read_only=True)
     # reviews = ReviewSerializer(many=True, read_only=True) # related_name으로 필드명 설정해줘야 작동, 역접근자(역참조) -> room.reviews
 
     class Meta:

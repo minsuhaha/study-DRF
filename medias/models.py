@@ -3,7 +3,7 @@ from common.models import CommonModel
 
 class Photo(CommonModel):
 
-    file = models.ImageField()
+    file = models.URLField()
     description = models.CharField(max_length=140,)
     room = models.ForeignKey('rooms.Room', null=True, blank=True, on_delete=models.CASCADE, related_name='photos')
     experience = models.ForeignKey('experiences.Experience', null=True, blank=True, on_delete=models.CASCADE, related_name='photos')
@@ -13,7 +13,7 @@ class Photo(CommonModel):
 
 class Viedo(CommonModel):
     
-    file = models.FileField()
+    file = models.URLField()
     experience = models.OneToOneField(
         "experiences.Experience", on_delete=models.CASCADE, related_name='viedos',
     ) # experience도 동영상 한개, 동영상에도 experience 한개만 연결가능!

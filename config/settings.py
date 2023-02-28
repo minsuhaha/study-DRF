@@ -143,3 +143,9 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'users.User'
+
+# media 파일들의 루트 폴더 만들어주기
+MEDIA_ROOT ='uploads'
+
+# media url 설정
+MEDIA_URL = 'user-uploads/'
